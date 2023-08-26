@@ -70,7 +70,7 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        chmod 777 ~/.ssh/id_rsa
         ssh-keyscan -H 54.80.118.164 >> ~/.ssh/known_hosts  # Add server's fingerprint
         echo "Hello, world!" > ~/hello.txt  # Using ~ to refer to the user's home directory
         scp -i ~/.ssh/id_rsa path/to/local/hello.txt ubuntu@54.80.118.164:/home/ubuntu/hello.txt
