@@ -1,3 +1,32 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main  # Modify to match your repository's main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Use the appropriate runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 54.80.118.164 >> ~/.ssh/known_hosts  # Add server's fingerprint
+        scp -i ~/.ssh/id_rsa path/to/local/hello.txt ubuntu@54.80.118.164:/home/ubuntu/hello.txt
+
+    - name: Clean up SSH keys
+      run: |
+        rm ~/.ssh/id_rsa
+        rm ~/.ssh/known_hosts
+
+
 # name: Create File on Vagrant
 
 # on:
@@ -22,36 +51,36 @@
 #           chmod 600 ~/.ssh/id_rsa
 #           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@54.80.118.164 'echo "Hello, world!" > /ubuntu/hello.txt'
 
-name: Deploy to Server
+# name: Deploy to Server
 
-on:
-  push:
-    branches:
-      - main  # Modify to match your repository's main branch
+# on:
+#   push:
+#     branches:
+#       - main  # Modify to match your repository's main branch
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest  # Use the appropriate runner
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest  # Use the appropriate runner
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
 
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H 54.80.118.164 >> ~/.ssh/known_hosts  # Add server's fingerprint
-        echo "Hello, world!" > ~/hello.txt  # Using ~ to refer to the user's home directory
+#     - name: Set up SSH
+#       run: |
+#         mkdir -p ~/.ssh
+#         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+#         chmod 600 ~/.ssh/id_rsa
+#         ssh-keyscan -H 54.80.118.164 >> ~/.ssh/known_hosts  # Add server's fingerprint
+#         echo "Hello, world!" > ~/hello.txt  # Using ~ to refer to the user's home directory
 
-    - name: List Home Directory
-      run: |
-        ls -la ~
+#     - name: List Home Directory
+#       run: |
+#         ls -la ~
 
 
   
-    - name: Clean up SSH keys
-      run: |
-        rm ~/.ssh/id_rsa
-        rm ~/.ssh/known_hosts
+#     - name: Clean up SSH keys
+#       run: |
+#         rm ~/.ssh/id_rsa
+#         rm ~/.ssh/known_hosts
