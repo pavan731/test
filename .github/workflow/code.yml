@@ -1,53 +1,51 @@
-name: Create File on Vagrant
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: SSH into Vagrant and Create File
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@54.80.118.164 'echo "Hello, world!" > /ubuntu/hello.txt'
-
-# name: Deploy to Server
+# name: Create File on Vagrant
 
 # on:
 #   push:
 #     branches:
-#       - main  # Modify to match your repository's main branch
+#       - main
 
 # jobs:
-#   deploy:
-#     runs-on: ubuntu-latest  # Use the appropriate runner
+#   build:
+#     runs-on: ubuntu-latest
 
 #     steps:
-#     - name: Checkout code
-#       uses: actions/checkout@v2
+#       - name: Checkout Repository
+#         uses: actions/checkout@v2
 
-#     - name: Set up SSH
-#       run: |
-#         mkdir -p ~/.ssh
-#         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-#         chmod 600 ~/.ssh/id_rsa
-#         ssh-keyscan -H 54.82.204.201 >> ~/.ssh/known_hosts  # Add server's fingerprint
+#       - name: SSH into Vagrant and Create File
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#         run: |
+#           mkdir -p ~/.ssh
+#           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+#           chmod 600 ~/.ssh/id_rsa
+#           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@54.80.118.164 'echo "Hello, world!" > /ubuntu/hello.txt'
 
-#     - name: Run curl command
-#       run: |
-#         SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }}
-#         curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, Authentication is successful!"}' "$SLACK_WEBHOOK_URL"
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main  # Modify to match your repository's main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Use the appropriate runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 54.82.204.201 >> ~/.ssh/known_hosts  # Add server's fingerprint
+        'echo "Hello, world!" > /ubuntu/hello.txt'
+
+   
 
 #     - name: Clean up SSH keys
 #       run: |
