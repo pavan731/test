@@ -42,12 +42,11 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H 54.82.204.201 >> ~/.ssh/known_hosts  # Add server's fingerprint
+        ssh-keyscan -H 54.80.118.164 >> ~/.ssh/known_hosts  # Add server's fingerprint
         'echo "Hello, world!" > /ubuntu/hello.txt'
+  
 
-   
-
-#     - name: Clean up SSH keys
-#       run: |
-#         rm ~/.ssh/id_rsa
-#         rm ~/.ssh/known_hosts
+    - name: Clean up SSH keys
+      run: |
+        rm ~/.ssh/id_rsa
+        rm ~/.ssh/known_hosts
