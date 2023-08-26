@@ -20,4 +20,36 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa vagrant@192.168.33.10 'echo "Hello, world!" > /vagrant/hello.txt'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@54.80.118.164 'echo "Hello, world!" > /ubuntu/hello.txt'
+
+# name: Deploy to Server
+
+# on:
+#   push:
+#     branches:
+#       - main  # Modify to match your repository's main branch
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest  # Use the appropriate runner
+
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
+
+#     - name: Set up SSH
+#       run: |
+#         mkdir -p ~/.ssh
+#         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+#         chmod 600 ~/.ssh/id_rsa
+#         ssh-keyscan -H 54.82.204.201 >> ~/.ssh/known_hosts  # Add server's fingerprint
+
+#     - name: Run curl command
+#       run: |
+#         SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }}
+#         curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, Authentication is successful!"}' "$SLACK_WEBHOOK_URL"
+
+#     - name: Clean up SSH keys
+#       run: |
+#         rm ~/.ssh/id_rsa
+#         rm ~/.ssh/known_hosts
