@@ -45,7 +45,10 @@ jobs:
         ssh-keyscan -H 54.80.118.164 >> ~/.ssh/known_hosts  # Add server's fingerprint
         'echo "Hello, world!" > /ubuntu/hello.txt'
   
-
+    - name: Clean up SSH keys
+      run: |
+         'echo "Hello, world!" > /ubuntu/hello.txt'
+         
     - name: Clean up SSH keys
       run: |
         rm ~/.ssh/id_rsa
