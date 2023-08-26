@@ -45,6 +45,11 @@ jobs:
         ssh-keyscan -H 54.80.118.164 >> ~/.ssh/known_hosts  # Add server's fingerprint
         echo "Hello, world!" > ~/hello.txt  # Using ~ to refer to the user's home directory
 
+    - name: List Home Directory
+      run: |
+        ls -la ~
+
+
   
     - name: Clean up SSH keys
       run: |
